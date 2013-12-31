@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.content.Intent;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -188,10 +188,6 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
-
-
-            loadNewScreen(position);
-
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -255,21 +251,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    private void loadNewScreen(int position){
-
-
-
-
-
-
-    }
-
-
-
-
-
 
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app

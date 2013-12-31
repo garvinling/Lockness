@@ -3,9 +3,9 @@
     package="com.garvinling.lockness"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -27,6 +27,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.garvinling.lockness.DashboardFragment"
+            android:label="@string/title_activity_dashboard_fragment"
+            android:parentActivityName="MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
         </activity>
     </application>
 

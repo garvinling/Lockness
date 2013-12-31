@@ -9,18 +9,17 @@
         android:layout_height="wrap_content"
         android:textSize="75px"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Unable to Connect"
+        android:text="..."
         android:id="@+id/title"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="209dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scan for Devices"
-        android:id="@+id/scan"
+        android:id="@+id/lock_button"
         android:height="70sp"
         android:width="220sp"
         android:layout_gravity="center_horizontal"
@@ -30,11 +29,11 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true" />
 
-    <!--<ImageView
+    <ImageView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/lockg"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />-->
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -10,5 +10,6 @@
     <string name="action_example">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_dashboard_fragment">DashboardFragment</string>
 
 </resources>

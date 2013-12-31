@@ -1,5 +1,6 @@
 package com.garvinling.lockness;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,12 +8,11 @@ import android.view.ViewGroup;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Garvin on 12/28/13.
  */
-public class LockControlFragment extends Fragment {
+public class LocknessFinderFragment extends Fragment {
 
 
     @Override
@@ -36,7 +36,15 @@ public class LockControlFragment extends Fragment {
 
     }
 
+    public void setTypeFace(){
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/JosefinSlab-Regular.ttf");
+        Typeface button_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/JosefinSlab-SemiBold.ttf");
+
+        title.setTypeface(font);
+        scanButton.setTypeface(button_font);
+
+    }
 
     public void setText(String text){
 

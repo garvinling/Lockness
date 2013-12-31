@@ -34,7 +34,6 @@ public class MainActivity extends FragmentActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private LocknessFinderFragment lock_fragment = new LocknessFinderFragment();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -47,20 +46,11 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-
-
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
         instance_state = savedInstanceState;
-
-
-
 
 
         //Adding a new fragment
@@ -70,12 +60,9 @@ public class MainActivity extends FragmentActivity
             if(savedInstanceState != null){
                 return;
             }
-
-
         }
 
         //Create a new fragment
-
         lock_fragment.setArguments(getIntent().getExtras());            //In case special instructions from an intent were passed
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,lock_fragment,"lock").commit();
     }
@@ -246,8 +233,6 @@ public class MainActivity extends FragmentActivity
                                 }
 
                         }
-
-
                 }
             };
 
@@ -283,8 +268,15 @@ public class MainActivity extends FragmentActivity
 
             //args.putInt("test",position);
             //com.lock_fragment.setArguments(args);
-           getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,lock_fragment,"lock").setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("lock").commit();
+            if(connected)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,dashboard_fragment,"lock").setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("lock").commit();
 
+            }
+            else
+            {
+               getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,lock_fragment,"lock").setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("lock").commit();
+            }
             print("This is a test of changing to the lock fragment");
 
         }
@@ -444,6 +436,23 @@ public class MainActivity extends FragmentActivity
 
     }
 
+    /** Bluetooth locking functions **/
+
+    public void lockDoor(){
+
+            String bytes = "l";
+            connectedThread.write(bytes.getBytes());
+
+
+    }
+
+    public void unlockDoor(){
+
+            String bytes = "u";
+            connectedThread.write(bytes.getBytes());
+
+    }
+
 
 
     /** Bluetooth Connect Thread Functions **/
@@ -478,8 +487,7 @@ public class MainActivity extends FragmentActivity
 
             } catch (IOException connectException) {
 
-                print("Unable to connect");
-                lock_fragment.setText("Unable to Connect to Lockness.)");
+                lock_fragment.setText("Unable to Connect to Lockness.");
 
                 try {
 
@@ -576,10 +584,14 @@ public class MainActivity extends FragmentActivity
                 case SUCCESS_CONNECT:
                     // DO something
                     print("Success_Connect");
-                    ConnectedThread connectedThread = new ConnectedThread((BluetoothSocket)msg.obj);
+                    connectedThread = new ConnectedThread((BluetoothSocket)msg.obj);
                     Toast.makeText(getApplicationContext(), "CONNECT", 0).show();
-                    String s = "l";
-                    connectedThread.write(s.getBytes());
+                    //String s = "l";
+                    connected = true;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,dashboard_fragment,"dash").setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("dash").commit();
+                    //connectedThread.write(s.getBytes());
+
+
                     break;
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[])msg.obj;
@@ -593,7 +605,10 @@ public class MainActivity extends FragmentActivity
 
 
     private FeedFragment feed_fragment = new FeedFragment();
+    private DashboardFragment dashboard_fragment = new DashboardFragment();
     private SettingsFragment settings_fragment = new SettingsFragment();
+    private LocknessFinderFragment lock_fragment = new LocknessFinderFragment();
+
     private Bundle instance_state;
     private int current_position = 0;
     protected static final int SUCCESS_CONNECT = 0;
@@ -601,8 +616,9 @@ public class MainActivity extends FragmentActivity
     private int LOCKNESS_DEVICE_EXISTS = 0;
     private int LOCKNESS_DEVICE_ONLINE = 0;
     private String device_identifier;      //need to pull device string from sql.
+    private boolean connected = false;
 
-
+    ConnectedThread connectedThread;
     BluetoothDevice locknessDevice;
     BluetoothAdapter btAdapter;
     BluetoothSocket btSocket;
